@@ -1,0 +1,18 @@
+[project]
+name = "pdf-outline-edit"
+version = "24.1.0"
+authors = [
+    { name = "slbtty", email = "shenlebantongying@gmail.com" },
+]
+description = "Mini PDF outline editor"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pymupdf"
+]
+
+[project.gui-scripts]
+pdf-outline-edit = "pdfoe.main_gui:main"
