@@ -1,7 +1,6 @@
 import fitz
 import re
 
-
 the_regex = re.compile(r"^\t*(?P<title>[\S\s]+)\s+(?P<page_num>\d+)$")
 
 regex_title_name = "title"
@@ -9,8 +8,8 @@ regex_page_num_name = "page_num"
 
 
 class MyPDF:
-    def __init__(self, pdf_file_path):
-        self.path = pdf_file_path
+    def __init__(self, pdf_file_path: str):
+        self.path: str = pdf_file_path
 
     def get_toc_as_text(self) -> str:
         with fitz.open(self.path) as doc:
@@ -26,9 +25,9 @@ class MyPDF:
             return "".join(ret)
 
     def set_toc_according_to_text(
-        self,
-        text: str,
-        offset: int,
+            self,
+            text: str,
+            offset: int,
     ):
         with fitz.open(self.path) as doc:
             fitz.utils.set_page_labels(
@@ -74,3 +73,4 @@ class MyPDF:
                 )
 
             fitz.utils.set_toc(doc, toc, collapse=0)
+            doc.saveIncr()

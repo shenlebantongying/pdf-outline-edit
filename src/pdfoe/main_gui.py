@@ -135,6 +135,7 @@ class App:
 
         self.offset_spin = ttk.Spinbox(offset_line_frame, from_=0, to=99999, width=4)
         self.offset_spin.pack(side=tk.LEFT)
+        self.offset_spin.set(0)
 
         # bottom
         btn_accept = ttk.Button(
@@ -170,14 +171,14 @@ class App:
             self.fileLine_entry_text.set(r)
 
     def callback_import_existing_toc(self):
-        if path := self.get_current_pdf_file() is not None:
+        if path := self.get_current_pdf_file():
             temp_pdf = pdf_obj.MyPDF(path)
             self.text_the_main_thing.set_text(temp_pdf.get_toc_as_text())
         else:
             gui_popup_error("PDF file file doesn't exist.")
 
     def callback_write_outline_now(self):
-        if path := self.get_current_pdf_file() is not None:
+        if path := self.get_current_pdf_file():
             temp_pdf = pdf_obj.MyPDF(path)
             try:
                 temp_pdf.set_toc_according_to_text(
