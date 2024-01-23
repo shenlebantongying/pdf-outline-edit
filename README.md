@@ -24,8 +24,9 @@ Extra features
 
 Automatic tidy up button. It does the following:
 
-1. Guess and adjust indent levels
-2. Remove excessive spaces
+1. Remove excessive spaces
+2. Remove ending punctuations (`,.`) in titles
+3. ?
 
 Extra Options
 

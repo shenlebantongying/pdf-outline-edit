@@ -1,3 +1,5 @@
+import subprocess
+import sys
 import tkinter as tk
 import tkinter.filedialog as filedialog
 import tkinter.ttk as ttk
@@ -5,7 +7,6 @@ import tkinter.ttk as ttk
 import idlelib.colorizer as ic
 import idlelib.percolator as ip
 
-import re
 import traceback
 import os.path
 
@@ -108,11 +109,14 @@ class App:
         btn_clean = ttk.Button(
             additional_row_frame, text="Tidy up TOC", command=self.callback_tidy_up
         )
+        btn_open_pdf = ttk.Button(
+            additional_row_frame, text="Open the PDF", command=self.callback_open_pdf_file
+        )
 
         additional_row_label.pack(side=tk.LEFT)
         btn_clean.pack(side=tk.LEFT)
-
         btn_import_existing_toc.pack(side=tk.LEFT)
+        btn_open_pdf.pack(side=tk.LEFT)
 
         file_row_frame.pack(side=tk.TOP, fill=tk.BOTH)
         additional_row_frame.pack(side=tk.TOP, fill=tk.BOTH)
@@ -195,7 +199,41 @@ class App:
             gui_popup_error("PDF file doesn't exist.")
 
     def callback_tidy_up(self):
-        pass
+        text = self.text_the_main_thing.get_all_text()
+        ret_text = []
+
+        for line in text.splitlines():
+
+            # remove right side white space
+            line = line.rstrip()
+
+            # skip empty lines
+            if line == "":
+                continue
+
+            try:
+                entry = parse_line(line)
+            except Exception as e:
+                gui_popup_error(str(e))
+                return
+
+            # remove excessive white spaces in title
+            entry.title = " ".join(entry.title.split())
+
+            # remove unnecessary ending punctuations
+            entry.title = entry.title.rstrip(",.")
+
+            ret_text.append(entry.to_string())
+
+        self.text_the_main_thing.set_text("\n".join(ret_text))
+
+    def callback_open_pdf_file(self):
+        filename = self.get_current_pdf_file()
+        if sys.platform == "win32":
+            os.startfile(filename)
+        else:
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, filename])
 
 
 def main():

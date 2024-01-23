@@ -1,10 +1,5 @@
 import fitz
-import re
-
-the_regex = re.compile(r"^\t*(?P<title>[\S\s]+)\s+(?P<page_num>\d+)$")
-
-regex_title_name = "title"
-regex_page_num_name = "page_num"
+from .common import *
 
 
 class MyPDF:
@@ -53,22 +48,17 @@ class MyPDF:
                 if line == "":
                     continue
 
-                # get starting tabs
-                level = 1
-                for c in line:
-                    if c == "\t":
-                        level += 1
-                    else:
-                        break
-
-                regex_result = the_regex.match(line)
-                # TODO: handle error here
+                try:
+                    entry = parse_line(line)
+                except Exception as e:
+                    gui_popup_error(str(e))
+                    return
 
                 toc.append(
                     [
-                        level,
-                        regex_result.group(regex_title_name),
-                        int(regex_result.group(regex_page_num_name)) + offset,
+                        entry.level + 1,
+                        entry.title,
+                        entry.page_num + offset,
                     ]
                 )
 
