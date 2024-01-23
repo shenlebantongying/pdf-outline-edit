@@ -20,10 +20,11 @@ class MyPDF:
             return "".join(ret)
 
     def set_toc_according_to_text(
-            self,
-            text: str,
-            offset: int,
+        self,
+        text: str,
+        offset: int,
     ):
+        offset = offset + 1
         with fitz.open(self.path) as doc:
             fitz.utils.set_page_labels(
                 doc,

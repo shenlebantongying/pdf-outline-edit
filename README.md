@@ -20,13 +20,42 @@ You can copy and paste existing outline from PDF books and tidy it up a bit to f
 
 <img src="demo.svg" alt="demo"/>
 
-Extra features
+## Extra 
 
-Automatic tidy up button. It does the following:
+### Auto tidy-up
 
 1. Remove excessive spaces
 2. Remove ending punctuations (`,.`) in titles
 3. ?
+
+### Auto indent by heads
+
+Try convert
+
+```
+index 1
+1 Chapter one 2
+1.1 nice 3
+1.2 world 4
+2 Chapter two 5
+2.1 hello 6
+2.2 noice 7
+references 8
+```
+
+into
+
+
+```
+index 1
+1 Chapter one
+    1.1 nice
+    1.2 world
+2 Chapter two
+    2.1 hello
+    2.2 noice
+    references 8  <--- this needs to adjust final entries that has no chapters
+```
 
 Extra Options
 

@@ -9,6 +9,7 @@ import idlelib.percolator as ip
 
 import traceback
 import os.path
+import webbrowser
 
 from . import pdf_obj
 from .common import *
@@ -24,6 +25,10 @@ class CustomTextWidget(tk.Frame):
             tabs=tk.font.Font(font=self.internal_text_widget["font"]).measure("    ")
         )
 
+        self.internal_text_widget.bind("<Control-Key-a>", self.select_all)
+        self.internal_text_widget.bind("<Control-Key-A>", self.select_all)
+
+        # Scrollbars
         ys = ttk.Scrollbar(
             self, orient="vertical", command=self.internal_text_widget.yview
         )
@@ -53,11 +58,15 @@ class CustomTextWidget(tk.Frame):
         ip.Percolator(self.internal_text_widget).insertfilter(cdg)
 
     def get_all_text(self):
-        return self.internal_text_widget.get("1.0", "end")
+        return self.internal_text_widget.get("1.0", tk.END)
 
     def set_text(self, ss: str):
-        self.internal_text_widget.delete("1.0", "end")
+        self.internal_text_widget.delete("1.0", tk.END)
         self.internal_text_widget.insert("1.0", ss)
+
+    def select_all(self, event):
+        self.internal_text_widget.tag_add(tk.SEL, "1.0", tk.END)
+        return "break"
 
 
 class App:
@@ -88,9 +97,9 @@ class App:
 
         self.fileLine_entry_text = tk.StringVar()
 
-        file_label = ttk.Label(file_row_frame, text="Target PDF file")
+        file_label = ttk.Label(file_row_frame, text="Target PDF file path: ")
         btn_file_open = ttk.Button(
-            file_row_frame, text="Open file", command=self.callback_openfile
+            file_row_frame, text="Set path", command=self.callback_openfile
         )
         file_line_entry = ttk.Entry(
             file_row_frame, textvariable=self.fileLine_entry_text
@@ -100,23 +109,33 @@ class App:
         file_line_entry.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
         btn_file_open.pack(side=tk.LEFT)
 
-        additional_row_label = ttk.Label(additional_row_frame, text="Extra tools:")
+        additional_row_label = ttk.Label(additional_row_frame, text="Extra tools: ")
         btn_import_existing_toc = ttk.Button(
             additional_row_frame,
-            text="Import existing TOC",
+            text="Import existing outlines",
             command=self.callback_import_existing_toc,
         )
-        btn_clean = ttk.Button(
-            additional_row_frame, text="Tidy up TOC", command=self.callback_tidy_up
+        btn_tidy_up = ttk.Button(
+            additional_row_frame, text="Tidy up", command=self.callback_tidy_up
         )
+
+        btn_auto_indent = ttk.Button(
+            additional_row_frame,
+            text="Auto indent by heads",
+            command=self.callback_auto_indent_by_heading,
+        )
+
         btn_open_pdf = ttk.Button(
-            additional_row_frame, text="Open the PDF", command=self.callback_open_pdf_file
+            additional_row_frame,
+            text="Open file in PDF viewer",
+            command=self.callback_open_pdf_file,
         )
 
         additional_row_label.pack(side=tk.LEFT)
-        btn_clean.pack(side=tk.LEFT)
         btn_import_existing_toc.pack(side=tk.LEFT)
         btn_open_pdf.pack(side=tk.LEFT)
+        btn_tidy_up.pack(side=tk.LEFT)
+        btn_auto_indent.pack(side=tk.LEFT)
 
         file_row_frame.pack(side=tk.TOP, fill=tk.BOTH)
         additional_row_frame.pack(side=tk.TOP, fill=tk.BOTH)
@@ -149,18 +168,14 @@ class App:
         )
         btn_accept.pack(side=tk.RIGHT)
 
-        btn_help = ttk.Button(bottom_frame, text="Help")
-        btn_help.pack(side=tk.LEFT)
-
-        # menubar
-        menubar = tk.Menu(self.root)
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(
-            label="About",
+        btn_help = ttk.Button(
+            bottom_frame,
+            text="Help",
+            command=lambda: webbrowser.open(
+                "https://github.com/shenlebantongying/pdf-outline-edit"
+            ),
         )
-        menubar.add_cascade(label="Help", menu=filemenu)
-
-        self.root.config(menu=menubar)
+        btn_help.pack(side=tk.LEFT)
 
         self.root.geometry("800x500")
         self.root.mainloop()
@@ -203,7 +218,6 @@ class App:
         ret_text = []
 
         for line in text.splitlines():
-
             # remove right side white space
             line = line.rstrip()
 
@@ -229,11 +243,45 @@ class App:
 
     def callback_open_pdf_file(self):
         filename = self.get_current_pdf_file()
+        if filename is None:
+            gui_popup_error("PDF file file doesn't exist.")
+            return
         if sys.platform == "win32":
             os.startfile(filename)
         else:
             opener = "open" if sys.platform == "darwin" else "xdg-open"
             subprocess.call([opener, filename])
+
+    def callback_auto_indent_by_heading(self):
+        self.callback_tidy_up()
+
+        text = self.text_the_main_thing.get_all_text()
+        cur_num = 0
+
+        ret_text = []
+
+        for line in text.splitlines():
+            try:
+                entry = parse_line(line)
+            except Exception as e:
+                gui_popup_error(str(e))
+                return
+
+            head = entry.title.split(maxsplit=1)[0]
+            head_num: int
+            try:
+                head_num = int(head)
+            except ValueError:
+                head_num = -1
+
+            if head_num == (cur_num + 1):
+                entry.level = 0
+                cur_num += 1
+            else:
+                entry.level = 1
+
+            ret_text.append(entry.to_string())
+            self.text_the_main_thing.set_text("\n".join(ret_text))
 
 
 def main():
