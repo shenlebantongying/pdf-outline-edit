@@ -1,6 +1,6 @@
 [project]
 name = "pdf-outline-edit"
-version = "24.1.3"
+version = "24.1.5"
 authors = [
     { name = "slbtty", email = "shenlebantongying@gmail.com" },
 ]

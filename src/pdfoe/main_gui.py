@@ -64,6 +64,7 @@ class CustomTextWidget(tk.Frame):
         self.internal_text_widget.delete("1.0", tk.END)
         self.internal_text_widget.insert("1.0", ss)
 
+    # noinspection PyUnusedLocal
     def select_all(self, event):
         self.internal_text_widget.tag_add(tk.SEL, "1.0", tk.END)
         return "break"
@@ -192,7 +193,9 @@ class App:
     def callback_import_existing_toc(self):
         if path := self.get_current_pdf_file():
             temp_pdf = pdf_obj.MyPDF(path)
-            self.text_the_main_thing.set_text(temp_pdf.get_toc_as_text())
+            (text, offset) = temp_pdf.get_toc_as_text()
+            self.text_the_main_thing.set_text(text)
+            self.offset_spin.set(offset)
         else:
             gui_popup_error("PDF file file doesn't exist.")
 
