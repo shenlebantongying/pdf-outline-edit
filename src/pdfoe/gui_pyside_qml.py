@@ -10,6 +10,7 @@ from PySide6.QtGui import (
     QTextDocument,
 )
 from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtQuick import QQuickTextDocument
 from PySide6.QtCore import QObject, Slot, Signal, Property, QUrl
 
 from . import pdf_obj
@@ -47,7 +48,7 @@ class Holy(QObject):
         self.qmlapp = o
 
     @Slot(QObject)
-    def set_text_edit_obj(self, o):
+    def set_text_edit_obj(self, o: QQuickTextDocument):
         doc: QTextDocument = o.textDocument()
         hl = Highlighter(self)
         hl.setDocument(doc)

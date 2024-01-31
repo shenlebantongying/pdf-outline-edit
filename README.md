@@ -1,7 +1,8 @@
 # Mini PDF Outline Editor
 
 ```
-pipx run pdf-outline-edit
+pipx run pdf-outline-edit     # tk GUI
+pipx run pdf-outline-edit[qt] # qt GUI, does not work yet
 ```
 
 A GUI program to import, edit and modify PDF outlines/Table-of-Content through a simple textual format.
@@ -71,6 +72,7 @@ Extra Options
 ```sh
 # Install in virtualenv
 python3 -m pip install -e .
+python3 -m pip install -e .[qt]
 
 # Run in dev environment
 ./src/run-gui.py
@@ -79,3 +81,7 @@ python3 -m pip install -e .
 # License
 
 AGPL-3.0-or-later
+
+# FYI
+
+Python packaging is HOLY HELL.

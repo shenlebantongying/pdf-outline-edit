@@ -1,13 +1,11 @@
 [project]
 name = "pdf-outline-edit"
-version = "24.2.0"
-authors = [{ name = "slbtty", email = "shenlebantongying@gmail.com" },
-]
+version = "24.2.3"
+authors = [{ name = "slbtty", email = "shenlebantongying@gmail.com" }]
 description = "Mini PDF outline editor"
 readme = "README.md"
 requires-python = ">=3.11"
-classifiers = ["Programming Language :: Python :: 3",
-]
+classifiers = ["Programming Language :: Python :: 3"]
 
 dependencies = ["pymupdf"]
 
@@ -15,11 +13,10 @@ dependencies = ["pymupdf"]
 qt = ["PySide6-Essentials>=6.6"]
 
 [project.gui-scripts]
-pdf-outline-edit-tk = "pdfoe.gui_tkinter:main"
-pdf-outline-edit-qt = "pdfoe.gui_pyside_qml:main"
+pdf-outline-edit = "pdfoe.main:main"
 
-[tool.setuptools]
-package-data = { "pdfoe" = ["*.qml"] }
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [build-system]
 requires = ["setuptools", "wheel"]
