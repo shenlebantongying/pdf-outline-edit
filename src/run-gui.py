@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from pdfoe import main_gui
+from pdfoe import gui_pyside_qml
 
-main_gui.main()
-
+gui_pyside_qml.main()

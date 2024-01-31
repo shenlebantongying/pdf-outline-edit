@@ -4,3 +4,5 @@ src/*.egg-info/
 /dist/
 /build/
 __pycache__/
+*.pyproject.user
+*.pdf
