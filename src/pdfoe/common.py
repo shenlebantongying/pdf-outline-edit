@@ -11,7 +11,7 @@ class LineEntry:
 
     def to_string(self):
         tab = "\t"  # python3.11's f-string cannot contain backslash. 😅
-        return f"{tab* self.level}{self.title} {self.page_num}"
+        return f"{tab * self.level}{self.title} {self.page_num}"
 
 
 the_regex = re.compile(r"^\t*(?P<title>[\S\s]+)\s+(?P<page_num>\d+)$")

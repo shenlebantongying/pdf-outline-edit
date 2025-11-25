@@ -32,7 +32,6 @@ class Highlighter(QSyntaxHighlighter):
         self.color_format.setForeground(QColor("#308A00"))
 
     def highlightBlock(self, text):
-
         self.the_regex.findall(text)
 
         for i in self.the_regex.finditer(text):

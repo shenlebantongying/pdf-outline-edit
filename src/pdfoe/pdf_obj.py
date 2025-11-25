@@ -8,13 +8,12 @@ class MyPDF:
 
     def get_toc_as_text(self) -> tuple[str, int]:
         with fitz.open(self.path) as doc:
-
             offset = 0
             for label in doc.get_page_labels():
-                if label['style'] == 'D' and label['startpage'] != 0:
-                    offset = label['startpage']
+                if label["style"] == "D" and label["startpage"] != 0:
+                    offset = label["startpage"]
 
-            toc = fitz.utils.get_toc(doc, simple=True)
+            toc = doc.get_toc(simple=True)
             ret: list[str] = []
             for i in toc:
                 level = int(i[0]) - 1
@@ -26,14 +25,13 @@ class MyPDF:
             return "".join(ret), offset - 1
 
     def set_toc_according_to_text(
-            self,
-            text: str,
-            offset: int,
+        self,
+        text: str,
+        offset: int,
     ):
         offset = offset + 1
         with fitz.open(self.path) as doc:
-            fitz.utils.set_page_labels(
-                doc,
+            doc.set_page_labels(
                 [
                     {"startpage": 0, "prefix": "", "style": "r", "firstpagenum": 1},
                     {
@@ -69,5 +67,5 @@ class MyPDF:
                     ]
                 )
 
-            fitz.utils.set_toc(doc, toc, collapse=0)
+            doc.set_toc(toc, collapse=1)
             doc.saveIncr()

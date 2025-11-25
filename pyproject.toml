@@ -1,10 +1,10 @@
 [project]
 name = "pdf-outline-edit"
-version = "24.2.3"
+version = "25.11.26"
 authors = [{ name = "slbtty", email = "shenlebantongying@gmail.com" }]
 description = "Mini PDF outline editor"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 classifiers = ["Programming Language :: Python :: 3"]
 
 dependencies = ["pymupdf"]
