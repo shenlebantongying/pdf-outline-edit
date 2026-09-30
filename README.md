@@ -2,7 +2,6 @@
 
 ```
 pipx run pdf-outline-edit     # tk GUI
-pipx run pdf-outline-edit[qt] # qt GUI, does not work yet
 ```
 
 A GUI program to import, edit and modify PDF outlines/Table-of-Content through a simple textual format.

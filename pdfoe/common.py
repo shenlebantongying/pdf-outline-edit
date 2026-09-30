@@ -1,7 +1,10 @@
-from dataclasses import dataclass
-import tkinter.messagebox as messagebox
 import re
+from dataclasses import dataclass
+from tkinter import messagebox
 
+
+class MyException(Exception):
+    pass
 
 @dataclass
 class LineEntry:
@@ -24,13 +27,13 @@ def parse_line(line: str) -> LineEntry:
     regex_result = the_regex.match(line)
 
     if regex_result is None:
-        raise Exception("This line has problems ->\n" + line)
+        raise MyException("This line has problems ->\n" + line)
 
     regex_title = regex_result.group(regex_title_name)
     regex_offset = int(regex_result.group(regex_page_num_name))
 
     if regex_title is None or regex_offset is None:
-        raise Exception("This line has problems ->\n" + line)
+        raise MyException("This line has problems ->\n" + line)
 
     return LineEntry(count_starting_tabs(line), regex_title, regex_offset)
 

@@ -1,15 +1,12 @@
+import idlelib.colorizer as ic  # ty: ignore[unresolved-import]
+import idlelib.percolator as ip  # ty: ignore[unresolved-import]
+import os.path
 import subprocess
 import sys
 import tkinter as tk
-import tkinter.filedialog as filedialog
-import tkinter.ttk as ttk
-
-import idlelib.colorizer as ic
-import idlelib.percolator as ip
-
 import traceback
-import os.path
 import webbrowser
+from tkinter import filedialog, ttk
 
 from . import pdf_obj
 from .common import *
@@ -64,8 +61,7 @@ class CustomTextWidget(tk.Frame):
         self.internal_text_widget.delete("1.0", tk.END)
         self.internal_text_widget.insert("1.0", ss)
 
-    # noinspection PyUnusedLocal
-    def select_all(self, event):
+    def select_all(self, _):
         self.internal_text_widget.tag_add(tk.SEL, "1.0", tk.END)
         return "break"
 
@@ -207,7 +203,7 @@ class App:
                     self.text_the_main_thing.get_all_text(),
                     int(self.offset_spin.get()),
                 )
-            except Exception as ex:
+            except MyException as ex:
                 m = "Error!\n"
                 m += str(ex)
                 m += "\n"
@@ -230,7 +226,7 @@ class App:
 
             try:
                 entry = parse_line(line)
-            except Exception as e:
+            except MyException as e:
                 gui_popup_error(str(e))
                 return
 
@@ -266,7 +262,7 @@ class App:
         for line in text.splitlines():
             try:
                 entry = parse_line(line)
-            except Exception as e:
+            except MyException as e:
                 gui_popup_error(str(e))
                 return
 

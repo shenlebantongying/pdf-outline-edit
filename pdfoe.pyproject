@@ -1,8 +1,0 @@
-{
-    "files": [
-        "src/run-gui.py",
-        "src/pdfoe/gui_pyside_qml.py",
-        "src/pdfoe/main.qml"
-    ]
-    "comment": "For Qt Creator"
-}

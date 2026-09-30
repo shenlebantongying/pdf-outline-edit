@@ -2,4 +2,5 @@
 
 from pdfoe import gui_tkinter
 
-gui_tkinter.main()
+if __name__ == '__main__':
+    gui_tkinter.main()

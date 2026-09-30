@@ -1,4 +1,5 @@
-import fitz
+import pymupdf
+
 from .common import *
 
 
@@ -7,7 +8,7 @@ class MyPDF:
         self.path: str = pdf_file_path
 
     def get_toc_as_text(self) -> tuple[str, int]:
-        with fitz.open(self.path) as doc:
+        with pymupdf.open(self.path) as doc:
             offset = 0
             for label in doc.get_page_labels():
                 if label["style"] == "D" and label["startpage"] != 0:
@@ -17,7 +18,7 @@ class MyPDF:
             ret: list[str] = []
             for i in toc:
                 level = int(i[0]) - 1
-                ret.append((level if level > 0 else 0) * "\t")
+                ret.append((max(0, level)) * "\t")
                 ret.append(i[1])
                 ret.append(" ")
                 ret.append(str(i[2] - offset))
@@ -30,7 +31,7 @@ class MyPDF:
         offset: int,
     ):
         offset = offset + 1
-        with fitz.open(self.path) as doc:
+        with pymupdf.open(self.path) as doc:
             doc.set_page_labels(
                 [
                     {"startpage": 0, "prefix": "", "style": "r", "firstpagenum": 1},

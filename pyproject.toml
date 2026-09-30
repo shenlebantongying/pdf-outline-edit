@@ -1,23 +1,26 @@
 [project]
 name = "pdf-outline-edit"
-version = "25.11.26"
+version = "26.10.00"
 authors = [{ name = "slbtty", email = "shenlebantongying@gmail.com" }]
 description = "Mini PDF outline editor"
 readme = "README.md"
 requires-python = ">=3.13"
 classifiers = ["Programming Language :: Python :: 3"]
 
-dependencies = ["pymupdf"]
+dependencies = [
+    "pymupdf>= 1.28",
+]
 
 [project.optional-dependencies]
-qt = ["PySide6-Essentials>=6.6"]
+qt = ["PySide6-Essentials>=6.11"]
 
 [project.gui-scripts]
 pdf-outline-edit = "pdfoe.main:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.uv.build-backend]
+module-name = "pdfoe"
+module-root = ""
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"

@@ -1,1 +1,0 @@
-* Qt Quick's TextArea cannot highlight the line-leading tabs, and the `QTextOptinon -> ShowTabsAndSpaces` does not work
