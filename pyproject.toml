@@ -1,6 +1,6 @@
 [project]
 name = "pdf-outline-edit"
-version = "26.10.00"
+version = "26.10.1"
 authors = [{ name = "slbtty", email = "shenlebantongying@gmail.com" }]
 description = "Mini PDF outline editor"
 readme = "README.md"
@@ -9,10 +9,8 @@ classifiers = ["Programming Language :: Python :: 3"]
 
 dependencies = [
     "pymupdf>= 1.28",
+    "PySide6-Essentials>=6.11"
 ]
-
-[project.optional-dependencies]
-qt = ["PySide6-Essentials>=6.11"]
 
 [project.gui-scripts]
 pdf-outline-edit = "pdfoe.main:main"

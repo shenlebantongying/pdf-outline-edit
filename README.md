@@ -1,7 +1,7 @@
 # Mini PDF Outline Editor
 
 ```
-pipx run pdf-outline-edit     # tk GUI
+uvx pdf-outline-edit 
 ```
 
 A GUI program to import, edit and modify PDF outlines/Table-of-Content through a simple textual format.
