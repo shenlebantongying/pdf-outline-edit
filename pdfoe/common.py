@@ -6,6 +6,7 @@ from tkinter import messagebox
 class MyException(Exception):
     pass
 
+
 @dataclass
 class LineEntry:
     level: int

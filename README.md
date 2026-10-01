@@ -71,10 +71,9 @@ Extra Options
 ```sh
 # Install in virtualenv
 python3 -m pip install -e .
-python3 -m pip install -e .[qt]
 
 # Run in dev environment
-./src/run-gui.py
+./run-gui-qt.py
 ```
 
 # License
